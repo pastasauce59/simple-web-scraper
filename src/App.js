@@ -1,25 +1,42 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import axios from 'axios';
+import { Cheerio } from 'cheerio';
+// import { Express } from 'express';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+componentDidMount() {
+  axios.get('https://www.bbc.com/')
+  .then(response => {
+    if(response.status === 200)
+    {const website = response.data;
+     const $ = Cheerio.load(website);
+     const data = []
+
+     $('.media__title', website).each(() =>{
+       const title = $(this).text()
+       const url = $(this).find('a').attr('href')
+       data.push({
+         title,
+         url
+       })
+     })
+     console.log(data)
+    } else {
+      console.log('Website not found')
+    }
+  })
+
+}
+
+  render() {
+    return (
+      <div>
+        <h4>Simple Web Scraping</h4>
+      </div>
+    );
+  }
 }
 
 export default App;
