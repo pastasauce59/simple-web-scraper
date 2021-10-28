@@ -2,7 +2,10 @@ const PORT = 9999
 const axios = require('axios')
 const cheerio = require('cheerio')
 const express = require('express')
+const cors = require('cors')
 const app = express()
+
+app.use(cors())
 
 //url can be any website of choosing
 let url = 'https://www.bbc.com/'
